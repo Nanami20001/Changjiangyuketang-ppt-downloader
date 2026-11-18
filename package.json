@@ -1,0 +1,43 @@
+{
+  "name": "rainclassroom-ppt-downloader",
+  "version": "2.0.0",
+  "description": "长江雨课堂课件下载器",
+  "author": "Nanami20001",
+  "license": "MIT",
+  "private": true,
+  "main": "desktop/main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node --test",
+    "desktop": "npm start",
+    "dist:win": "electron-builder --win portable --x64"
+  },
+  "build": {
+    "appId": "io.rainclassroom.downloader",
+    "productName": "长江雨课堂下载器",
+    "files": [
+      "desktop/main.cjs",
+      "desktop/workspace-preload.cjs",
+      "desktop/services/**/*.cjs",
+      "desktop/renderer/**/*",
+      "LICENSE",
+      "!node_modules/pdf-lib/{dist,es,src,ts3.4}/**/*",
+      "!node_modules/@pdf-lib/standard-fonts/{dist,es}/**/*",
+      "!node_modules/@pdf-lib/upng/dist/**/*",
+      "!node_modules/pako/dist/**/*"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "electronLanguages": ["en-US", "zh-CN", "zh-TW"],
+      "executableName": "RainclassroomDownloader",
+      "artifactName": "RainclassroomDownloader-${version}-Windows-x64.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron": "45.3.4",
+    "electron-builder": "26.18.0"
+  },
+  "dependencies": {
+    "pdf-lib": "1.17.1"
+  }
+}

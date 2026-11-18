@@ -1,0 +1,12 @@
+# 参考文档/素材，不入库
+reference/
+
+# Claude Code 配置
+.claude/
+
+# Playwright 浏览器痕迹（快照/日志，非源码）
+.playwright-mcp/
+
+node_modules/
+dist/
+

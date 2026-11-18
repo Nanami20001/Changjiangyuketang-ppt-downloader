@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; script-src 'self'">
+  <title>长江雨课堂下载器</title>
+  <link rel="stylesheet" href="workspace.css">
+  <script src="workspace.js" defer></script>
+</head>
+<body>
+  <svg class="symbols" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 6v15M3 4.5C6.5 3.5 9.5 4 12 6c2.5-2 5.5-2.5 9-1.5v14c-3.5-1-6.5-.5-9 1.5-2.5-2-5.5-2.5-9-1.5z"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.4"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.4"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.4"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v12m-4.5-4.5L12 15.5l4.5-4.5M4 16v2.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V16"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5v5l3 2"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/><path d="M8 5v4m8 1v4m-6 1v4" stroke-width="3"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M8 4H5a1 1 0 0 0-1 1v3m12-4h3a1 1 0 0 1 1 1v3m-4 12h3a1 1 0 0 0 1-1v-3M8 20H5a1 1 0 0 1-1-1v-3M3 12h18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.2 15.2 4.3 4.3"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M13 3.5H6.5A1.5 1.5 0 0 0 5 5v14a1.5 1.5 0 0 0 1.5 1.5h11A1.5 1.5 0 0 0 19 19V9.5zm0 0v6h6M8.5 13h7m-7 3h7"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4.5m0 3.2v.1"/></symbol>
+  </svg>
+
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></div>
+      <div><strong>长江雨课堂</strong><span>课件下载器</span></div>
+    </div>
+    <nav class="navigation" aria-label="工作台">
+      <button data-action="view" data-value="library" class="nav-item" aria-current="page"><svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg>课件库</button>
+      <button data-action="view" data-value="downloads" class="nav-item"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>下载任务<span id="nav-count" class="nav-count" hidden></span></button>
+      <button data-action="view" data-value="history" class="nav-item"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>扫描历史</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <button data-action="view" data-value="settings" class="nav-item"><svg class="icon" aria-hidden="true"><use href="#i-settings"/></svg>保存设置</button>
+    </div>
+  </aside>
+
+  <div class="surface">
+    <header class="topbar">
+      <span id="section-name" class="breadcrumb">课件工作台</span>
+      <div class="top-actions">
+        <button class="button quiet" data-action="open-folder"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg>打开保存位置</button>
+        <button class="account" data-action="login" title="打开雨课堂官方网页"><span id="account-dot" class="account-dot"></span><span id="account-text">正在检查连接</span></button>
+      </div>
+    </header>
+
+    <main id="workspace-content" class="scroll-area">
+      <section id="view-library" class="workspace-view" aria-labelledby="library-title">
+        <div class="view-heading"><h1 id="library-title">课件库</h1><p id="library-caption">登录雨课堂后，即可扫描课程和课件。</p></div>
+        <div class="scan-card">
+          <div class="scan-content">
+            <div class="scan-mark"><svg class="icon" aria-hidden="true"><use href="#i-scan"/></svg></div>
+            <div class="scan-copy"><h2 id="scan-title">扫描课程课件</h2><p id="scan-detail" aria-live="polite">获取课程列表和新增课件</p><progress id="scan-progress" aria-label="扫描进度" hidden></progress></div>
+          </div>
+          <button id="scan-button" class="button primary" data-action="scan"><svg class="icon" aria-hidden="true"><use href="#i-scan"/></svg><span>开始扫描</span></button>
+        </div>
+        <div class="metrics" aria-label="课件统计">
+          <div><span class="metric-icon green"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></span><span><small>课程</small><strong id="count-courses">0</strong></span></div>
+          <div><span class="metric-icon blue"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg></span><span><small>课件</small><strong id="count-lessons">0</strong></span></div>
+          <div><span class="metric-icon gold"><svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg></span><span><small>本次新增</small><strong id="count-added">0</strong></span></div>
+        </div>
+        <div class="panel">
+          <div class="panel-heading">
+            <div><h2 id="list-title">课程与课件</h2><button id="dismiss-history" class="text-button" data-action="clear-history-filter" hidden>返回全部课件</button></div>
+            <label class="search"><svg class="icon" aria-hidden="true"><use href="#i-search"/></svg><input id="search" type="search" placeholder="搜索课程或课件" aria-label="搜索课程或课件"></label>
+          </div>
+          <div class="list-controls">
+            <div class="segments" aria-label="课件筛选">
+              <button data-action="filter" data-value="all" aria-pressed="true">全部</button><button data-action="filter" data-value="new" aria-pressed="false">本次新增</button>
+            </div>
+            <label class="check-label"><input id="select-visible" type="checkbox" disabled>全选当前结果</label>
+          </div>
+          <div id="course-list"></div>
+        </div>
+      </section>
+
+      <section id="view-downloads" class="workspace-view" aria-labelledby="downloads-title" hidden>
+        <div class="view-heading"><h1 id="downloads-title">下载任务</h1><p>查看进度、管理当前任务，或定位已保存的课件。</p></div>
+        <div class="metrics" aria-label="下载统计">
+          <div><span class="metric-icon blue"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg></span><span><small>队列中</small><strong id="jobs-active">0</strong></span></div>
+          <div><span class="metric-icon green"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span><span><small>已完成</small><strong id="jobs-complete">0</strong></span></div>
+          <div><span class="metric-icon gold"><svg class="icon" aria-hidden="true"><use href="#i-alert"/></svg></span><span><small>待处理</small><strong id="jobs-issue">0</strong></span></div>
+        </div>
+        <div class="panel"><div class="panel-heading"><h2>文件列表</h2><span id="jobs-summary" class="subtle"></span></div><div id="job-list"></div></div>
+      </section>
+
+      <section id="view-history" class="workspace-view" aria-labelledby="history-title" hidden>
+        <div class="view-heading"><h1 id="history-title">扫描历史</h1><p>查看每次扫描的结果，并重新选择当时新增的课件。</p></div>
+        <div class="panel"><div class="panel-heading"><h2>扫描记录</h2><span id="history-summary" class="subtle"></span></div><div id="history-list"></div></div>
+      </section>
+
+      <section id="view-settings" class="workspace-view" aria-labelledby="settings-title" hidden>
+        <div class="view-heading"><h1 id="settings-title">保存设置</h1><p>设置导出文件的保存位置和归档方式。</p></div>
+        <div class="panel">
+          <div class="setting-row"><div class="metric-icon green"><svg class="icon" aria-hidden="true"><use href="#i-folder"/></svg></div><div class="setting-copy"><h2>保存位置</h2><p id="directory-path"></p></div><button class="button outline" data-action="pick-folder">更改位置</button><button id="reset-folder" class="button quiet" data-action="reset-folder" hidden>恢复默认</button></div>
+          <div class="setting-row"><div class="metric-icon blue"><svg class="icon" aria-hidden="true"><use href="#i-grid"/></svg></div><label class="setting-copy" for="categorize"><strong>按课程归档</strong><p>为每门课程自动创建文件夹</p></label><label class="switch"><input id="categorize" type="checkbox" role="switch" aria-label="按课程归档"><span></span></label></div>
+        </div>
+      </section>
+    </main>
+
+    <footer id="selection-bar" class="selection-bar">
+      <div><strong id="selection-count" aria-live="polite">已选 0 个课件</strong><button id="clear-selection" class="text-button" data-action="clear-selection" hidden>清空选择</button></div>
+      <button id="download-button" class="button primary" data-action="download" disabled><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>下载选中</button>
+    </footer>
+    <div id="notice" class="toast" role="status" hidden></div>
+  </div>
+</body>
+</html>
